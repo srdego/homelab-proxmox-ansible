@@ -1,0 +1,34 @@
+# Ensure the host tracks the desired non-subscription feeds
+
+- name: Remove subscription-only repositories
+  ansible.builtin.deb822_repository:
+    name: "{{ item.name }}"
+    state: absent
+  loop: "{{ apt_repositories_to_remove }}"
+  loop_control:
+    label: "{{ item.name }}"
+  tags:
+    - repos
+    - non_subscription
+
+- name: Add community repositories
+  ansible.builtin.deb822_repository:
+    name: "{{ item.name }}"
+    uris: "{{ item.uris | default(omit) }}"
+    suites: "{{ item.suites | default(omit) }}"
+    components: "{{ item.components | default(omit) }}"
+    architectures: "{{ item.architectures | default(omit) }}"
+    signed_by: "{{ item.signed_by | default(omit) }}"
+    state: present
+  loop: "{{ apt_repositories_to_add }}"
+  loop_control:
+    label: "{{ item.name }}"
+  tags:
+    - repos
+    - non_subscription
+
+- name: Refresh apt cache after repository changes
+  ansible.builtin.import_tasks: "{{ role_path }}/../shared/tasks/apt_update_cache.yaml"
+  tags:
+    - repos
+    - non_subscription

@@ -1,0 +1,21 @@
+# Repository management defaults
+
+release_codename: "{{ ansible_facts['distribution_release'] | lower }}"
+apt_architecture: amd64
+gpg_keyring_path: "/usr/share/keyrings/proxmox-archive-keyring.gpg"
+
+apt_repositories_to_remove:
+  - name: pve-enterprise
+  - name: ceph
+
+apt_repositories_to_add:
+  - name: proxmox
+    uris:
+      - http://download.proxmox.com/debian/pve
+    suites:
+      - "{{ release_codename }}"
+    components:
+      - pve-no-subscription
+    architectures:
+      - "{{ apt_architecture }}"
+    signed_by: "{{ gpg_keyring_path }}"
