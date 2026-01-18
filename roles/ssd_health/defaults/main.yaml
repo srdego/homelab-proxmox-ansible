@@ -1,0 +1,10 @@
+# SSD health tuning defaults
+
+ha_cluster_services_to_disable:
+  - pve-ha-lrm
+  - pve-ha-crm
+  - corosync
+trim_timer_unit: fstrim.timer
+journald_conf_path: /etc/systemd/journald.conf
+journald_storage_regex: '^#?\s*Storage='
+journald_storage_value: Storage=volatile

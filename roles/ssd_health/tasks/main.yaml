@@ -1,0 +1,31 @@
+# Reduce unnecessary writes and keep trim maintenance active
+
+- name: Disable HA and cluster services on single-node hosts
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop: "{{ ha_cluster_services_to_disable }}"
+  loop_control:
+    label: "{{ item }}"
+  tags:
+    - ssd_health
+    - single_node
+
+- name: Ensure the SSD trim timer is enabled
+  ansible.builtin.systemd:
+    name: "{{ trim_timer_unit }}"
+    enabled: true
+    state: started
+  tags:
+    - ssd_health
+
+- name: Keep journald logs in memory to limit SSD wear
+  ansible.builtin.lineinfile:
+    path: "{{ journald_conf_path }}"
+    regexp: "{{ journald_storage_regex }}"
+    line: "{{ journald_storage_value }}"
+    backup: true
+  notify: Restart systemd-journald
+  tags:
+    - ssd_health
