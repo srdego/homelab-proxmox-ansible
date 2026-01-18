@@ -1,0 +1,17 @@
+# SSH access control defaults
+
+ssh_user: "{{ ansible_user | lower }}"
+ssh_pub_key_path: "~/.ssh/homelab.pub"
+ssh_authorized_accounts:
+  - user: "{{ ssh_user }}"
+    key: "{{ ssh_pub_key_path }}"
+sshd_config_path: /etc/ssh/sshd_config
+sshd_directives:
+  - regexp: '^#?\s*PasswordAuthentication\s+'
+    line: PasswordAuthentication no
+  - regexp: '^#?\s*PermitEmptyPasswords\s+'
+    line: PermitEmptyPasswords no
+  - regexp: '^#?\s*ChallengeResponseAuthentication\s+'
+    line: ChallengeResponseAuthentication no
+  - regexp: '^#?\s*PubkeyAuthentication\s+'
+    line: PubkeyAuthentication yes

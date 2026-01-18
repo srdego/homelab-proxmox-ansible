@@ -1,0 +1,8 @@
+- name: Restart sshd
+  ansible.builtin.systemd:
+    name: sshd
+    state: restarted
+  # This prevents Ansible from hanging if the
+  # connection drops immediately after the restart
+  async: 1
+  poll: 0
