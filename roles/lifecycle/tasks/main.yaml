@@ -1,0 +1,23 @@
+# Keep the node updated and equip it with operator tooling
+
+- name: Refresh apt cache for lifecycle tasks
+  ansible.builtin.import_tasks: "{{ role_path }}/../shared/tasks/apt_update_cache.yaml"
+  tags:
+    - lifecycle
+    - fresh_install
+    - upgrade
+
+- name: Perform dist-upgrade to align with selected feeds
+  ansible.builtin.import_tasks: "{{ role_path }}/../shared/tasks/apt_dist_upgrade.yaml"
+  tags:
+    - lifecycle
+    - fresh_install
+    - upgrade
+
+- name: Install baseline tooling packages
+  ansible.builtin.apt:
+    name: "{{ apt_packages_to_install }}"
+    state: present
+  tags:
+    - lifecycle
+    - fresh_install

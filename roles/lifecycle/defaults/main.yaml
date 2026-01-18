@@ -1,0 +1,6 @@
+# Lifecycle management defaults
+
+apt_packages_to_install:
+  - intel-microcode
+  - lm-sensors
+  - vim
