@@ -1,0 +1,10 @@
+[project]
+name = "homelab-proxmox-ansible"
+version = "0.1.0"
+description = "Ansible playbooks for post-install, hardening and maintenance of a Proxmox VE homelab"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "ansible>=13.2.0",
+    "ansible-lint>=25.12.2",
+]
