@@ -1,0 +1,5 @@
+- name: Perform an apt distribution upgrade
+  ansible.builtin.apt:
+    upgrade: dist
+    autoremove: true
+    autoclean: true

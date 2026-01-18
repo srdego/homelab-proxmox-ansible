@@ -1,0 +1,9 @@
+- name: Refresh the apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: not (apt_cache_refreshed | default(false))
+
+- name: Mark apt cache as refreshed for this run
+  ansible.builtin.set_fact:
+    apt_cache_refreshed: true
+  when: not (apt_cache_refreshed | default(false))
