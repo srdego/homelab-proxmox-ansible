@@ -4,3 +4,18 @@ apt_packages_to_install:
   - intel-microcode
   - lm-sensors
   - vim
+  - unattended-upgrades
+
+# Unattended upgrades configuration
+unattended_upgrades_enabled: true
+unattended_upgrades_auto_fix_interrupted_dpkg: true
+unattended_upgrades_minimal_steps: true
+unattended_upgrades_install_on_shutdown: false
+unattended_upgrades_remove_unused_kernel: true
+unattended_upgrades_remove_unused_dependencies: true
+unattended_upgrades_automatic_reboot: false
+unattended_upgrades_automatic_reboot_time: "03:00"
+unattended_upgrades_origins:
+  - "origin=Debian,codename=${distro_codename},label=Debian"
+  - "origin=Debian,codename=${distro_codename},label=Debian-Security"
+  - "origin=Proxmox,codename=${distro_codename}"
